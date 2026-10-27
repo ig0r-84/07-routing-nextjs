@@ -23,12 +23,14 @@ interface CreateNoteData {
 export const fetchNotes = async (
   search: string,
   page: number,
+  tag: string,
 ): Promise<NotesHttpResponse> => {
   const response = await noteApi.get<NotesHttpResponse>("/notes", {
     params: {
       search,
       perPage: 12,
       page,
+      ...(tag !== "all" && { tag }),
     },
   });
 

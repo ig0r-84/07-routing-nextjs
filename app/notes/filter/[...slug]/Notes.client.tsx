@@ -15,11 +15,13 @@ import css from "./NotesPage.module.css";
 interface NotesClientProps {
   search: string;
   page: number;
+  tag: string;
 }
 
 export default function NotesClient({
   search: initialSearch,
   page: initialPage,
+  tag,
 }: NotesClientProps) {
   const [inputValue, setInputValue] = useState(initialSearch);
   const [search, setSearch] = useState(initialSearch);
@@ -32,8 +34,8 @@ export default function NotesClient({
   }, 500);
 
   const { data, isLoading, isFetching, isError, error } = useQuery({
-    queryKey: ["notes", search, page],
-    queryFn: () => fetchNotes(search, page),
+    queryKey: ["notes", search, page, tag],
+    queryFn: () => fetchNotes(search, page, tag),
     placeholderData: (previousData) => previousData,
   });
 
@@ -63,6 +65,7 @@ export default function NotesClient({
             setPage={setPage}
           />
         )}
+
         <button
           className={css.button}
           type="button"
@@ -72,6 +75,7 @@ export default function NotesClient({
           Create note +
         </button>
       </div>
+
       {isFetching && <p>Loading, please wait...</p>}
 
       {data?.notes.length === 0 ? (
