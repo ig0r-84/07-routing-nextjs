@@ -6,15 +6,17 @@ import {
 import { notFound } from "next/navigation";
 
 import { fetchNoteById } from "@/lib/api";
-import NoteDetailsModal from "./NoteDetailsModal";
+import NotePreview from "./NotePreview.client";
 
-interface NoteModalPageProps {
+interface NotePreviewPageProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async function NoteModalPage({ params }: NoteModalPageProps) {
+export default async function NotePreviewPage({
+  params,
+}: NotePreviewPageProps) {
   const { id } = await params;
   const queryClient = new QueryClient();
 
@@ -29,7 +31,7 @@ export default async function NoteModalPage({ params }: NoteModalPageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsModal />
+      <NotePreview />
     </HydrationBoundary>
   );
 }
